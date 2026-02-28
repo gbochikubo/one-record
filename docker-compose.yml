@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: onerecord-postgres
+    environment:
+      POSTGRES_DB: onerecord
+      POSTGRES_USER: onerecord
+      POSTGRES_PASSWORD: onerecord
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: onerecord-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@onerecord.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
