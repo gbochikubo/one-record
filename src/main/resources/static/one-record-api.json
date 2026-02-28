@@ -1,0 +1,84 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "One Record API",
+    "description": "One Record API — Unified Registration System for Individuals and Legal Entities. Manages the full lifecycle of records: creation, retrieval, update, and deactivation, with Snowflake ID identification and AWS Cognito authentication.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "One Record Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Person",
+      "description": "Unified person registration operations"
+    },
+    {
+      "name": "Health",
+      "description": "Application health checks"
+    }
+  ],
+  "paths": {
+    "/actuator/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Check application health",
+        "description": "Returns the application status and its components (database, disk space, etc.).",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "Application is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "UP",
+                  "components": {
+                    "db": {
+                      "status": "UP",
+                      "details": {
+                        "database": "PostgreSQL",
+                        "validationQuery": "isValid()"
+                      }
+                    },
+                    "diskSpace": {
+                      "status": "UP"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Application is unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "UP"
+          },
+          "components": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,3 +3,7 @@ spring:
     name: one-record
   profiles:
     active: local
+
+springdoc:
+  swagger-ui:
+    url: /one-record-api.json
